@@ -1,0 +1,1 @@
+/usr/bin/c++    -rdynamic CMakeFiles/GN-BA.dir/GN-BA.o  -o GN-BA 
