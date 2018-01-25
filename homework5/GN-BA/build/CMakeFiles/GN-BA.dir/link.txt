@@ -1,1 +1,1 @@
-/usr/bin/c++    -rdynamic CMakeFiles/GN-BA.dir/GN-BA.o  -o GN-BA 
+/usr/bin/c++      CMakeFiles/GN-BA.dir/GN-BA.o  -o GN-BA -rdynamic /home/slam/Sophus/libSophus.so -Wl,-rpath,/home/slam/Sophus 
