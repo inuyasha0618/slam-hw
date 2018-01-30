@@ -85,7 +85,7 @@ int main(int argc, char **argv) {
     // first use single level LK in the validation picture
     vector<KeyPoint> kp2_single;
     vector<bool> success_single;
-    OpticalFlowSingleLevel(img1, img2, kp1, kp2_single, success_single);
+    OpticalFlowSingleLevel(img1, img2, kp1, kp2_single, success_single, true);
 
     // then test multi-level LK
     vector<KeyPoint> kp2_multi;
@@ -186,6 +186,8 @@ void OpticalFlowSingleLevel(
                     } else {
                         // Inverse Jacobian
                         // NOTE this J does not change when dx, dy is updated, so we can store it and only compute error
+                        J(0) = -(GetPixelValue(img1, kp.pt.x + x + 1, kp.pt.y + y) - GetPixelValue(img1, kp.pt.x + x - 1, kp.pt.y + y)) /2;
+                        J(1) = -(GetPixelValue(img1, kp.pt.x + x, kp.pt.y + y + 1) - GetPixelValue(img1, kp.pt.x + x, kp.pt.y + y)) /2;
                     }
 
                     // compute H, b and set cost;
