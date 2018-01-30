@@ -251,7 +251,11 @@ void OpticalFlowMultiLevel(
     vector<Mat> pyr1, pyr2; // image pyramids
     // TODO START YOUR CODE HERE (~8 lines)
     for (int i = 0; i < pyramids; i++) {
-
+        Mat temp;
+        cv::pyrDown(img1, temp, cv::Size(img1.cols * scales[i], img1.rows * scale[i]));
+        pyr1.push_back(temp);
+        cv::pyrDown(img2, temp, cv::Size(img2.cols * scales[i], img2.rows * scale[i]));
+        pyr2.push_back(temp);
     }
     // TODO END YOUR CODE HERE
 
