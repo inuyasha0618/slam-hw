@@ -181,16 +181,16 @@ void OpticalFlowSingleLevel(
                     Eigen::Vector2d J;  // Jacobian
                     if (inverse == false) {
                         // Forward Jacobian
-                        J(1) = -(img2.at<uchar>(kp.pt.y + dy, kp.pt.x + dx + 1) - img2.at<uchar>(kp.pt.y + dy, kp.pt.x + dx - 1))/ 2;
-                        J(2) = -(img2.at<uchar>(kp.pt.y + dy + 1,  kp.pt.x + dx) - img2.at<uchar>(kp.pt.y + dy - 1,  kp.pt.x + dx))/ 2;
+                        J(0) = -(img2.at<uchar>(kp.pt.y + dy, kp.pt.x + dx + 1) - img2.at<uchar>(kp.pt.y + dy, kp.pt.x + dx - 1))/ 2;
+                        J(1) = -(img2.at<uchar>(kp.pt.y + dy + 1,  kp.pt.x + dx) - img2.at<uchar>(kp.pt.y + dy - 1,  kp.pt.x + dx))/ 2;
                     } else {
                         // Inverse Jacobian
                         // NOTE this J does not change when dx, dy is updated, so we can store it and only compute error
                     }
 
                     // compute H, b and set cost;
-                    H = J * J.transpose();
-                    b = -J * error;
+                    H += J * J.transpose();
+                    b += -J * error;
                     cost = error * error;
                     // TODO END YOUR CODE HERE
                 }
@@ -201,7 +201,7 @@ void OpticalFlowSingleLevel(
             update = H.ldlt().solve(b);
             // TODO END YOUR CODE HERE
 
-            if (isnan(update[0])) {
+            if (std::isnan(update[0])) {
                 // sometimes occurred when we have a black or white patch and H is irreversible
                 cout << "update is nan" << endl;
                 succ = false;
