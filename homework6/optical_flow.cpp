@@ -177,12 +177,15 @@ void OpticalFlowSingleLevel(
                 for (int y = -half_patch_size; y < half_patch_size; y++) {
 
                     // TODO START YOUR CODE HERE (~8 lines)
-                    double error = img1.at<uchar>(kp.pt.y, kp.pt.x) - img2.at<uchar>(kp.pt.y + dy, kp.pt.x + dx);
+//                    double error = img1.at<uchar>(kp.pt.y, kp.pt.x) - img2.at<uchar>(kp.pt.y + dy, kp.pt.x + dx);
+                    double error = GetPixelValue(img1, kp.pt.x + x, kp.pt.y + y) - GetPixelValue(img2, kp.pt.x + x + dx, kp.pt.y + y + dy);
                     Eigen::Vector2d J;  // Jacobian
                     if (inverse == false) {
                         // Forward Jacobian
-                        J(0) = -(img2.at<uchar>(kp.pt.y + dy, kp.pt.x + dx + 1) - img2.at<uchar>(kp.pt.y + dy, kp.pt.x + dx - 1))/ 2;
-                        J(1) = -(img2.at<uchar>(kp.pt.y + dy + 1,  kp.pt.x + dx) - img2.at<uchar>(kp.pt.y + dy - 1,  kp.pt.x + dx))/ 2;
+//                        J(0) = -(img2.at<uchar>(kp.pt.y + dy, kp.pt.x + dx + 1) - img2.at<uchar>(kp.pt.y + dy, kp.pt.x + dx - 1))/ 2;
+                        J(0) = -(GetPixelValue(img2, kp.pt.x + x + dx + 1, kp.pt.y + y + dy) - GetPixelValue(img2, kp.pt.x + x + dx - 1, kp.pt.y + y + dy)) /2;
+//                        J(1) = -(img2.at<uchar>(kp.pt.y + dy + 1,  kp.pt.x + dx) - img2.at<uchar>(kp.pt.y + dy - 1,  kp.pt.x + dx))/ 2;
+                        J(1) = -(GetPixelValue(img2, kp.pt.x + x + dx, kp.pt.y + y + dy + 1) - GetPixelValue(img2, kp.pt.x + x + dx, kp.pt.y + y + dy - 1)) /2;
                     } else {
                         // Inverse Jacobian
                         // NOTE this J does not change when dx, dy is updated, so we can store it and only compute error
@@ -191,7 +194,7 @@ void OpticalFlowSingleLevel(
                     // compute H, b and set cost;
                     H += J * J.transpose();
                     b += -J * error;
-                    cost = error * error;
+                    cost += error * error;
                     // TODO END YOUR CODE HERE
                 }
 
