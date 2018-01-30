@@ -1,0 +1,5 @@
+/home/slam/software/clion-2017.3.2/bin/cmake/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/slam/slam-hw/homework6
+-- Found OpenCV: /usr/local (found suitable version "3.3.0", minimum required is "3") 
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/slam/slam-hw/homework6/cmake-build-debug

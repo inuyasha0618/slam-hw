@@ -1,0 +1,1 @@
+/usr/bin/c++  -std=c++11 -g  -rdynamic CMakeFiles/optical_flow.dir/optical_flow.cpp.o  -o optical_flow 

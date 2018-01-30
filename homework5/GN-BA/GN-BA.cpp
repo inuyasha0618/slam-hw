@@ -11,6 +11,7 @@ using namespace Eigen;
 #include <fstream>
 #include <iostream>
 #include <iomanip>
+#include <sstream>
 
 #include "sophus/se3.h"
 
@@ -23,6 +24,31 @@ typedef Matrix<double, 6, 1> Vector6d;
 string p3d_file = "./p3d.txt";
 string p2d_file = "./p2d.txt";
 
+void setVecVector(VecVector2d& v, string filename) {
+    ifstream iss(filename);
+    string currLineStr;
+    while (getline(iss, currLineStr)) {
+        Vector2d currLineVec;
+        istringstream iss(currLineStr);
+        iss >> currLineVec(0);
+        iss >> currLineVec(1);
+        v.push_back(currLineVec);
+    }
+}
+
+void setVecVector(VecVector3d& v, string filename) {
+    ifstream iss(filename);
+    string currLineStr;
+    while (getline(iss, currLineStr)) {
+        Vector3d currLineVec;
+        istringstream iss(currLineStr);
+        iss >> currLineVec(0);
+        iss >> currLineVec(1);
+        iss >> currLineVec(2);
+        v.push_back(currLineVec);
+    }
+}
+
 int main(int argc, char **argv) {
 
     VecVector2d p2d;
@@ -33,7 +59,8 @@ int main(int argc, char **argv) {
 
     // load points in to p3d and p2d 
     // START YOUR CODE HERE
-
+    setVecVector(p2d, p2d_file);
+    setVecVector(p3d, p3d_file);
     // END YOUR CODE HERE
     assert(p3d.size() == p2d.size());
 
@@ -42,7 +69,9 @@ int main(int argc, char **argv) {
     int nPoints = p3d.size();
     cout << "points: " << nPoints << endl;
 
-    Sophus::SE3 T_esti; // estimated pose
+    Vector3d t(0, 0, 0);
+    Matrix3d R = Eigen::Matrix3d::Identity();
+    Sophus::SE3 T_esti ; // estimated pose
 
     for (int iter = 0; iter < iterations; iter++) {
 
@@ -53,28 +82,46 @@ int main(int argc, char **argv) {
         // compute cost
         for (int i = 0; i < nPoints; i++) {
             // compute cost for p3d[I] and p2d[I]
-            // START YOUR CODE HERE 
+            // START YOUR CODE HERE
+            Vector3d P = p3d.at(i);
+            Vector2d u = p2d.at(i);
+            Vector3d Pc = T_esti * P;
+            Vector3d u_calcu_homo = K * Pc;
 
-	    // END YOUR CODE HERE
+            Vector2d e;
+            e(0) = u(0) - u_calcu_homo(0) / u_calcu_homo(2);
+            e(1) = u(1) - u_calcu_homo(1) / u_calcu_homo(2);
 
-	    // compute jacobian
+            cost += e.transpose() * e;
+
+            // END YOUR CODE HERE
+            // compute jacobian
             Matrix<double, 2, 6> J;
-            // START YOUR CODE HERE 
+            // START YOUR CODE HERE
+            Matrix<double, 2, 3> de_dPc;
+            de_dPc << -fx / Pc(2), 0, fx * Pc(0) / (Pc(2) * Pc(2)),
+                    0, -fy / Pc(2), fy * Pc(1) / (Pc(2) * Pc(2));
 
-	    // END YOUR CODE HERE
+            Matrix<double , 3, 6> dPc_dpose;
+            dPc_dpose << 1, 0, 0, 0, Pc(2), -Pc(1),
+                         0, 1, 0, -Pc(2), 0, Pc(0),
+                         0, 0, 1, Pc(1), -Pc(0), 0;
+
+            J = de_dPc * dPc_dpose;
+	        // END YOUR CODE HERE
 
             H += J.transpose() * J;
             b += -J.transpose() * e;
         }
 
-	// solve dx 
+	    // solve dx
         Vector6d dx;
 
-        // START YOUR CODE HERE 
-
+        // START YOUR CODE HERE
+        dx = H.ldlt().solve(b);
         // END YOUR CODE HERE
 
-        if (isnan(dx[0])) {
+        if (std::isnan(dx[0])) {
             cout << "result is nan!" << endl;
             break;
         }
@@ -86,10 +133,10 @@ int main(int argc, char **argv) {
         }
 
         // update your estimation
-        // START YOUR CODE HERE 
-
+        // START YOUR CODE HERE
+        T_esti = Sophus::SE3::exp(dx) * T_esti;
         // END YOUR CODE HERE
-        
+
         lastCost = cost;
 
         cout << "iteration " << iter << " cost=" << cout.precision(12) << cost << endl;
