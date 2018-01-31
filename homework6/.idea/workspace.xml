@@ -48,9 +48,17 @@
       <file leaf-file-name="direct_method.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/direct_method.cpp">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="344">
               <caret line="150" column="0" lean-forward="true" selection-start-line="150" selection-start-column="0" selection-end-line="150" selection-end-column="0" />
               <folding />
+=======
+            <state relative-caret-position="591">
+              <caret line="207" column="48" lean-forward="true" selection-start-line="207" selection-start-column="48" selection-end-line="207" selection-end-column="48" />
+              <folding>
+                <element signature="e#0#29#0" expanded="true" />
+              </folding>
+>>>>>>> fad615223a8654f1fecf08dbd60f292d047b9d5a
             </state>
           </provider>
         </entry>
@@ -150,13 +158,21 @@
       <option name="presentableId" value="Default" />
       <updated>1517268646872</updated>
       <workItem from="1517268648195" duration="4407000" />
+<<<<<<< HEAD
       <workItem from="1517273560866" duration="738000" />
       <workItem from="1517379536094" duration="5308000" />
+=======
+      <workItem from="1517273560866" duration="1352000" />
+>>>>>>> fad615223a8654f1fecf08dbd60f292d047b9d5a
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
+<<<<<<< HEAD
     <option name="totallyTimeSpent" value="10642000" />
+=======
+    <option name="totallyTimeSpent" value="5759000" />
+>>>>>>> fad615223a8654f1fecf08dbd60f292d047b9d5a
   </component>
   <component name="ToolWindowManager">
     <frame x="1379" y="73" width="1768" height="1002" extended-state="0" />
@@ -320,8 +336,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/optical_flow.cpp">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="251">
           <caret line="160" column="41" lean-forward="true" selection-start-line="160" selection-start-column="41" selection-end-line="160" selection-end-column="41" />
+=======
+        <state relative-caret-position="591">
+          <caret line="207" column="48" lean-forward="true" selection-start-line="207" selection-start-column="48" selection-end-line="207" selection-end-column="48" />
+>>>>>>> fad615223a8654f1fecf08dbd60f292d047b9d5a
           <folding>
             <element signature="e#0#29#0" expanded="true" />
           </folding>

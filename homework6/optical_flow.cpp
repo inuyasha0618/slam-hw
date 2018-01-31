@@ -177,18 +177,17 @@ void OpticalFlowSingleLevel(
                 for (int y = -half_patch_size; y < half_patch_size; y++) {
 
                     // TODO START YOUR CODE HERE (~8 lines)
-//                    double error = img1.at<uchar>(kp.pt.y, kp.pt.x) - img2.at<uchar>(kp.pt.y + dy, kp.pt.x + dx);
                     double error = GetPixelValue(img1, kp.pt.x + x, kp.pt.y + y) - GetPixelValue(img2, kp.pt.x + x + dx, kp.pt.y + y + dy);
                     Eigen::Vector2d J;  // Jacobian
                     if (inverse == false) {
                         // Forward Jacobian
-//                        J(0) = -(img2.at<uchar>(kp.pt.y + dy, kp.pt.x + dx + 1) - img2.at<uchar>(kp.pt.y + dy, kp.pt.x + dx - 1))/ 2;
                         J(0) = -(GetPixelValue(img2, kp.pt.x + x + dx + 1, kp.pt.y + y + dy) - GetPixelValue(img2, kp.pt.x + x + dx - 1, kp.pt.y + y + dy)) /2;
-//                        J(1) = -(img2.at<uchar>(kp.pt.y + dy + 1,  kp.pt.x + dx) - img2.at<uchar>(kp.pt.y + dy - 1,  kp.pt.x + dx))/ 2;
                         J(1) = -(GetPixelValue(img2, kp.pt.x + x + dx, kp.pt.y + y + dy + 1) - GetPixelValue(img2, kp.pt.x + x + dx, kp.pt.y + y + dy - 1)) /2;
                     } else {
                         // Inverse Jacobian
                         // NOTE this J does not change when dx, dy is updated, so we can store it and only compute error
+                        J(0) = -(GetPixelValue(img1, kp.pt.x + x + 1, kp.pt.y + y) - GetPixelValue(img1, kp.pt.x + x - 1, kp.pt.y + y)) /2;
+                        J(1) = -(GetPixelValue(img1, kp.pt.x + x, kp.pt.y + y + 1) - GetPixelValue(img1, kp.pt.x + x, kp.pt.y + y)) /2;
                     }
 
                     // compute H, b and set cost;
@@ -213,6 +212,10 @@ void OpticalFlowSingleLevel(
             if (iter > 0 && cost > lastCost) {
                 cout << "cost increased: " << cost << ", " << lastCost << endl;
                 break;
+            }
+
+            if (iter > 0 && cost < lastCost) {
+                cout << "cost decreased: " << cost << ", " << lastCost << endl;
             }
 
             // update dx, dy
@@ -251,14 +254,36 @@ void OpticalFlowMultiLevel(
     // create pyramids
     vector<Mat> pyr1, pyr2; // image pyramids
     // TODO START YOUR CODE HERE (~8 lines)
-    for (int i = 0; i < pyramids; i++) {
-
+    pyr1.push_back(img1);
+    pyr2.push_back(img2);
+    for (int i = 1; i < pyramids; i++) {
+        Mat temp1, temp2;
+        cout << "scale: " << scales[i] << endl;
+        cv::pyrDown(pyr1[0], temp1, Size((int)(pyr1[0].cols * pyramid_scale), (int)(pyr1[0].rows * pyramid_scale)));
+        pyr1.insert(pyr1.begin(), temp1);
+        cv::pyrDown(pyr2[0], temp2, Size((int)(pyr2[0].cols * pyramid_scale), (int)(pyr2[0].rows * pyramid_scale)));
+        pyr2.insert(pyr2.begin(), temp2);
     }
     // TODO END YOUR CODE HERE
 
     // coarse-to-fine LK tracking in pyramids
     // TODO START YOUR CODE HERE
+    for (int i = 0; i < pyramids; i++) {
+        vector<KeyPoint> curr_kp1;
+        vector<KeyPoint> curr_kp2;
+        for (int j = 0; j < kp1.size(); j++) {
+            KeyPoint kp;
+            kp.pt.x = (float)(kp1[j].pt.x * scales[pyramids - 1 - i]);
+            kp.pt.y = (float)(kp1[j].pt.y * scales[pyramids - 1 - i]);
+            curr_kp1.push_back(kp);
 
+            if (i > 0) {
+                kp2[j].pt.x /= pyramid_scale;
+                kp2[j].pt.y /= pyramid_scale;
+            }
+        }
+        OpticalFlowSingleLevel(pyr1[i], pyr2[i], curr_kp1, kp2, success, inverse);
+    }
     // TODO END YOUR CODE HERE
     // don't forget to set the results into kp2
 }
