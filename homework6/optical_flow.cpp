@@ -85,12 +85,12 @@ int main(int argc, char **argv) {
     // first use single level LK in the validation picture
     vector<KeyPoint> kp2_single;
     vector<bool> success_single;
-    OpticalFlowSingleLevel(img1, img2, kp1, kp2_single, success_single, false);
+    OpticalFlowSingleLevel(img1, img2, kp1, kp2_single, success_single);
 
     // then test multi-level LK
     vector<KeyPoint> kp2_multi;
     vector<bool> success_multi;
-    OpticalFlowMultiLevel(img1, img2, kp1, kp2_multi, success_multi, true);
+    OpticalFlowMultiLevel(img1, img2, kp1, kp2_multi, success_multi);
 
     // use opencv's flow for validation
     vector<Point2f> pt1, pt2;
@@ -216,7 +216,6 @@ void OpticalFlowSingleLevel(
 
             if (iter > 0 && cost < lastCost) {
                 cout << "cost decreased: " << cost << ", " << lastCost << endl;
-                break;
             }
 
             // update dx, dy
@@ -260,9 +259,9 @@ void OpticalFlowMultiLevel(
     for (int i = 1; i < pyramids; i++) {
         Mat temp1, temp2;
         cout << "scale: " << scales[i] << endl;
-        cv::pyrDown(pyr1[i - 1], temp1, Size((int)(pyr1[i - 1].cols * pyramid_scale), (int)(pyr1[i - 1].rows * pyramid_scale)));
+        cv::pyrDown(pyr1[0], temp1, Size((int)(pyr1[0].cols * pyramid_scale), (int)(pyr1[0].rows * pyramid_scale)));
         pyr1.insert(pyr1.begin(), temp1);
-        cv::pyrDown(pyr2[i - 1], temp2, Size((int)(pyr2[i - 1].cols * pyramid_scale), (int)(pyr2[i - 1].rows * pyramid_scale)));
+        cv::pyrDown(pyr2[0], temp2, Size((int)(pyr2[0].cols * pyramid_scale), (int)(pyr2[0].rows * pyramid_scale)));
         pyr2.insert(pyr2.begin(), temp2);
     }
     // TODO END YOUR CODE HERE
