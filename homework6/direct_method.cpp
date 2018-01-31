@@ -133,10 +133,11 @@ void DirectPoseEstimationSingleLayer(
             // compute the projection in the second image
             // TODO START YOUR CODE HERE
             float u =0, v = 0;
+            Eigen::Vector2d px_ref_i = px_ref.at(i);
 
             Eigen::Vector3d P_ref, P_target;
-            P_ref(0) = depth_ref.at(i) * (px_ref.at(i)(0) - cx) / fx;
-            P_ref(1) = depth_ref.at(i) * (px_ref.at(i)(1) - cy) / fy;
+            P_ref(0) = depth_ref.at(i) * (px_ref_i(0) - cx) / fx;
+            P_ref(1) = depth_ref.at(i) * (px_ref_i(1) - cy) / fy;
             P_ref(2) = depth_ref.at(i);
 
             P_target = T21 * P_ref;
@@ -157,11 +158,15 @@ void DirectPoseEstimationSingleLayer(
                 for (int y = -half_patch_size; y < half_patch_size; y++) {
 
                     double error =0;
-
+                    error = GetPixelValue(img1, px_ref_i(0) + x, px_ref_i(1) + y) - GetPixelValue(img2, u + x, v + y);
                     Matrix26d J_pixel_xi;   // pixel to \xi in Lie algebra
                     Eigen::Vector2d J_img_pixel;    // image gradients
 
-//                    GetPixelValue(img2, )
+                    J_img_pixel(0) = (GetPixelValue(img2, u + x + 1, v + y) - GetPixelValue(img2, u + x - 1, v + y)) / 2;
+                    J_img_pixel(1) = (GetPixelValue(img2, u + x, v + y + 1) - GetPixelValue(img2, u + x, v + y - 1)) / 2;
+
+                    Eigen::Matrix<double, 2, 3> J_pixel_3d;
+                    
 
                     // total jacobian
                     Vector6d J=0;
