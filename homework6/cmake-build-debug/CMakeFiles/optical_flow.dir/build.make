@@ -34,19 +34,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /home/slam/software/clion-2017.3.2/bin/cmake/bin/cmake
+CMAKE_COMMAND = /Applications/CLion.app/Contents/bin/cmake/bin/cmake
 
 # The command to remove a file.
-RM = /home/slam/software/clion-2017.3.2/bin/cmake/bin/cmake -E remove -f
+RM = /Applications/CLion.app/Contents/bin/cmake/bin/cmake -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/slam/slam-hw/homework6
+CMAKE_SOURCE_DIR = /Users/suntiecheng/cpp-test/slam-hw/homework6
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/slam/slam-hw/homework6/cmake-build-debug
+CMAKE_BINARY_DIR = /Users/suntiecheng/cpp-test/slam-hw/homework6/cmake-build-debug
 
 # Include any dependencies generated for this target.
 include CMakeFiles/optical_flow.dir/depend.make
@@ -59,16 +59,16 @@ include CMakeFiles/optical_flow.dir/flags.make
 
 CMakeFiles/optical_flow.dir/optical_flow.cpp.o: CMakeFiles/optical_flow.dir/flags.make
 CMakeFiles/optical_flow.dir/optical_flow.cpp.o: ../optical_flow.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/slam/slam-hw/homework6/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/optical_flow.dir/optical_flow.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/optical_flow.dir/optical_flow.cpp.o -c /home/slam/slam-hw/homework6/optical_flow.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/suntiecheng/cpp-test/slam-hw/homework6/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/optical_flow.dir/optical_flow.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/optical_flow.dir/optical_flow.cpp.o -c /Users/suntiecheng/cpp-test/slam-hw/homework6/optical_flow.cpp
 
 CMakeFiles/optical_flow.dir/optical_flow.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/optical_flow.dir/optical_flow.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/slam/slam-hw/homework6/optical_flow.cpp > CMakeFiles/optical_flow.dir/optical_flow.cpp.i
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/suntiecheng/cpp-test/slam-hw/homework6/optical_flow.cpp > CMakeFiles/optical_flow.dir/optical_flow.cpp.i
 
 CMakeFiles/optical_flow.dir/optical_flow.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/optical_flow.dir/optical_flow.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/slam/slam-hw/homework6/optical_flow.cpp -o CMakeFiles/optical_flow.dir/optical_flow.cpp.s
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/suntiecheng/cpp-test/slam-hw/homework6/optical_flow.cpp -o CMakeFiles/optical_flow.dir/optical_flow.cpp.s
 
 CMakeFiles/optical_flow.dir/optical_flow.cpp.o.requires:
 
@@ -90,26 +90,25 @@ optical_flow_EXTERNAL_OBJECTS =
 
 optical_flow: CMakeFiles/optical_flow.dir/optical_flow.cpp.o
 optical_flow: CMakeFiles/optical_flow.dir/build.make
-optical_flow: /usr/local/lib/libopencv_dnn.so.3.3.0
-optical_flow: /usr/local/lib/libopencv_ml.so.3.3.0
-optical_flow: /usr/local/lib/libopencv_objdetect.so.3.3.0
-optical_flow: /usr/local/lib/libopencv_shape.so.3.3.0
-optical_flow: /usr/local/lib/libopencv_stitching.so.3.3.0
-optical_flow: /usr/local/lib/libopencv_superres.so.3.3.0
-optical_flow: /usr/local/lib/libopencv_videostab.so.3.3.0
-optical_flow: /usr/local/lib/libopencv_viz.so.3.3.0
-optical_flow: /usr/local/lib/libopencv_calib3d.so.3.3.0
-optical_flow: /usr/local/lib/libopencv_features2d.so.3.3.0
-optical_flow: /usr/local/lib/libopencv_flann.so.3.3.0
-optical_flow: /usr/local/lib/libopencv_highgui.so.3.3.0
-optical_flow: /usr/local/lib/libopencv_photo.so.3.3.0
-optical_flow: /usr/local/lib/libopencv_video.so.3.3.0
-optical_flow: /usr/local/lib/libopencv_videoio.so.3.3.0
-optical_flow: /usr/local/lib/libopencv_imgcodecs.so.3.3.0
-optical_flow: /usr/local/lib/libopencv_imgproc.so.3.3.0
-optical_flow: /usr/local/lib/libopencv_core.so.3.3.0
+optical_flow: /usr/local/lib/libopencv_dnn.3.3.0.dylib
+optical_flow: /usr/local/lib/libopencv_ml.3.3.0.dylib
+optical_flow: /usr/local/lib/libopencv_objdetect.3.3.0.dylib
+optical_flow: /usr/local/lib/libopencv_shape.3.3.0.dylib
+optical_flow: /usr/local/lib/libopencv_stitching.3.3.0.dylib
+optical_flow: /usr/local/lib/libopencv_superres.3.3.0.dylib
+optical_flow: /usr/local/lib/libopencv_videostab.3.3.0.dylib
+optical_flow: /usr/local/lib/libopencv_calib3d.3.3.0.dylib
+optical_flow: /usr/local/lib/libopencv_features2d.3.3.0.dylib
+optical_flow: /usr/local/lib/libopencv_flann.3.3.0.dylib
+optical_flow: /usr/local/lib/libopencv_highgui.3.3.0.dylib
+optical_flow: /usr/local/lib/libopencv_photo.3.3.0.dylib
+optical_flow: /usr/local/lib/libopencv_video.3.3.0.dylib
+optical_flow: /usr/local/lib/libopencv_videoio.3.3.0.dylib
+optical_flow: /usr/local/lib/libopencv_imgcodecs.3.3.0.dylib
+optical_flow: /usr/local/lib/libopencv_imgproc.3.3.0.dylib
+optical_flow: /usr/local/lib/libopencv_core.3.3.0.dylib
 optical_flow: CMakeFiles/optical_flow.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/slam/slam-hw/homework6/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable optical_flow"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/suntiecheng/cpp-test/slam-hw/homework6/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable optical_flow"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/optical_flow.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -126,6 +125,6 @@ CMakeFiles/optical_flow.dir/clean:
 .PHONY : CMakeFiles/optical_flow.dir/clean
 
 CMakeFiles/optical_flow.dir/depend:
-	cd /home/slam/slam-hw/homework6/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/slam/slam-hw/homework6 /home/slam/slam-hw/homework6 /home/slam/slam-hw/homework6/cmake-build-debug /home/slam/slam-hw/homework6/cmake-build-debug /home/slam/slam-hw/homework6/cmake-build-debug/CMakeFiles/optical_flow.dir/DependInfo.cmake --color=$(COLOR)
+	cd /Users/suntiecheng/cpp-test/slam-hw/homework6/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Users/suntiecheng/cpp-test/slam-hw/homework6 /Users/suntiecheng/cpp-test/slam-hw/homework6 /Users/suntiecheng/cpp-test/slam-hw/homework6/cmake-build-debug /Users/suntiecheng/cpp-test/slam-hw/homework6/cmake-build-debug /Users/suntiecheng/cpp-test/slam-hw/homework6/cmake-build-debug/CMakeFiles/optical_flow.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/optical_flow.dir/depend
 

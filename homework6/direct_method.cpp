@@ -133,6 +133,22 @@ void DirectPoseEstimationSingleLayer(
             // compute the projection in the second image
             // TODO START YOUR CODE HERE
             float u =0, v = 0;
+
+            Eigen::Vector3d P_ref, P_target;
+            P_ref(0) = depth_ref.at(i) * (px_ref.at(i)(0) - cx) / fx;
+            P_ref(1) = depth_ref.at(i) * (px_ref.at(i)(1) - cy) / fy;
+            P_ref(2) = depth_ref.at(i);
+
+            P_target = T21 * P_ref;
+            u = fy * P_target(0) / P_target(2) + cx;
+            v = fy * P_target(1) / P_target(2) + cy;
+
+            if (u <= half_patch_size || u >= img2.cols - half_patch_size ||
+                    v <= half_patch_size || v >= img2.rows - half_patch_size) {
+
+                continue;
+            }
+
             nGood++;
             goodProjection.push_back(Eigen::Vector2d(u, v));
 
@@ -144,6 +160,8 @@ void DirectPoseEstimationSingleLayer(
 
                     Matrix26d J_pixel_xi;   // pixel to \xi in Lie algebra
                     Eigen::Vector2d J_img_pixel;    // image gradients
+
+//                    GetPixelValue(img2, )
 
                     // total jacobian
                     Vector6d J=0;

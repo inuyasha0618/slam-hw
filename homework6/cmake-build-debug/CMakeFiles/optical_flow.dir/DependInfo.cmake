@@ -4,13 +4,13 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/slam/slam-hw/homework6/optical_flow.cpp" "/home/slam/slam-hw/homework6/cmake-build-debug/CMakeFiles/optical_flow.dir/optical_flow.cpp.o"
+  "/Users/suntiecheng/cpp-test/slam-hw/homework6/optical_flow.cpp" "/Users/suntiecheng/cpp-test/slam-hw/homework6/cmake-build-debug/CMakeFiles/optical_flow.dir/optical_flow.cpp.o"
   )
-set(CMAKE_CXX_COMPILER_ID "GNU")
+set(CMAKE_CXX_COMPILER_ID "Clang")
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
-  "/usr/include/eigen3"
+  "/usr/local/include/eigen3"
   "/usr/local/include"
   "/usr/local/include/opencv"
   )
