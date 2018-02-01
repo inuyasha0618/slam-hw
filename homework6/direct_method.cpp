@@ -204,7 +204,7 @@ void DirectPoseEstimationSingleLayer(
 
                     // total jacobian
                     Vector6d J=0;
-                    J = J_pixel_xi.transpose() * J_img_pixel;
+                    J = -J_pixel_xi.transpose() * J_img_pixel;
 
                     H += J * J.transpose();
                     b += -error * J;
