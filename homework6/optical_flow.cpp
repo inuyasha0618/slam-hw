@@ -90,7 +90,7 @@ int main(int argc, char **argv) {
     // then test multi-level LK
     vector<KeyPoint> kp2_multi;
     vector<bool> success_multi;
-    OpticalFlowMultiLevel(img1, img2, kp1, kp2_multi, success_multi, true);
+    OpticalFlowMultiLevel(img1, img2, kp1, kp2_multi, success_multi, false);
 
     // use opencv's flow for validation
     vector<Point2f> pt1, pt2;
