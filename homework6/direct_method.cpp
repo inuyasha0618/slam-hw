@@ -196,12 +196,16 @@ void DirectPoseEstimationSingleLayer(
                     J_pixel_3d(1, 2) = -fy * P_target_i_xy(1) / (P_target_i_xy(2) * P_target_i_xy(2));
 
                     Eigen::Matrix<double, 3, 6> J_3d_xi;
-                    J_3d_xi << 1, 0, 0, 0, -P_target_i_xy(2), P_target_i_xy(1),
-                               0, 1, 0, P_target_i_xy(2), 0, -P_target_i_xy(0),
-                               0, 0, 1, -P_target_i_xy(1), P_target_i_xy(0), 0;
+                    J_3d_xi << 1, 0, 0, 0, P_target_i_xy(2), -P_target_i_xy(1),
+                               0, 1, 0, -P_target_i_xy(2), 0, P_target_i_xy(0),
+                               0, 0, 1, P_target_i_xy(1), -P_target_i_xy(0), 0;
 
                     J_pixel_xi = J_pixel_3d * J_3d_xi;
-
+//                    double X = P_target_i_xy(0);
+//                    double Y = P_target_i_xy(1);
+//                    double Z = P_target_i_xy(2);
+//                    J_pixel_xi << fx / Z, 0, -fx * X / (Z*Z), -fx * X * Y / (Z*Z), fx + fx * (X * X)/(Z*Z), -fx * Y/Z,
+//                                0, fy/Z, -fy*Y/(Z*Z), -fy-fy*(Y*Y)/(Z*Z), fy*X*Y/(Z*Z), fy*X/Z;
                     // total jacobian
                     Vector6d J= Eigen::Matrix<double, 6, 1>::Zero();
                     J = -J_pixel_xi.transpose() * J_img_pixel;
