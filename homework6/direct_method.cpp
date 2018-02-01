@@ -203,7 +203,7 @@ void DirectPoseEstimationSingleLayer(
                     J_pixel_xi = J_pixel_3d * J_3d_xi;
 
                     // total jacobian
-                    Vector6d J=0;
+                    Vector6d J= Eigen::Matrix<double, 6, 1>::Zero();
                     J = -J_pixel_xi.transpose() * J_img_pixel;
 
                     H += J * J.transpose();
