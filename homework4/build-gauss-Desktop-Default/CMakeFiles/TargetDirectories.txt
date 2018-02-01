@@ -1,1 +1,0 @@
-/home/slam/slam-hw/homework4/build-gauss-Desktop-Default/CMakeFiles/gaussnewton.dir

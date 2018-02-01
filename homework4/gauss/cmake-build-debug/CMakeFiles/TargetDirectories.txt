@@ -1,3 +1,0 @@
-/home/slam/slam-hw/homework4/gauss/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/slam/slam-hw/homework4/gauss/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/slam/slam-hw/homework4/gauss/cmake-build-debug/CMakeFiles/gaussnewton.dir

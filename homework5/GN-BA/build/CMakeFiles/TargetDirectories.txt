@@ -1,3 +1,0 @@
-/home/slam/slam-hw/homework5/GN-BA/build/CMakeFiles/rebuild_cache.dir
-/home/slam/slam-hw/homework5/GN-BA/build/CMakeFiles/edit_cache.dir
-/home/slam/slam-hw/homework5/GN-BA/build/CMakeFiles/GN-BA.dir
