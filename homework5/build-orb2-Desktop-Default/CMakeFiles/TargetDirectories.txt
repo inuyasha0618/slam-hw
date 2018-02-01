@@ -1,3 +1,0 @@
-/home/slam/slam-hw/homework5/build-orb2-Desktop-Default/CMakeFiles/rebuild_cache.dir
-/home/slam/slam-hw/homework5/build-orb2-Desktop-Default/CMakeFiles/edit_cache.dir
-/home/slam/slam-hw/homework5/build-orb2-Desktop-Default/CMakeFiles/computeORB.dir
