@@ -99,8 +99,8 @@ int main(int argc, char **argv) {
 
     for (int i = 1; i < 6; i++) {  // 1~10
         cv::Mat img = cv::imread((fmt_others % i).str(), 0);
-        DirectPoseEstimationSingleLayer(left_img, img, pixels_ref, depth_ref, T_cur_ref);    // first you need to test single layer
-//        DirectPoseEstimationMultiLayer(left_img, img, pixels_ref, depth_ref, T_cur_ref);
+//         DirectPoseEstimationSingleLayer(left_img, img, pixels_ref, depth_ref, T_cur_ref);    // first you need to test single layer
+        DirectPoseEstimationMultiLayer(left_img, img, pixels_ref, depth_ref, T_cur_ref);
     }
 }
 
@@ -120,8 +120,6 @@ void DirectPoseEstimationSingleLayer(
     int nGood = 0;  // good projections
     VecVector2d goodProjection;
 
-    cv::Mat disparity_img = cv::imread(disparity_file, 0);
-
     for (int iter = 0; iter < iterations; iter++) {
         nGood = 0;
         goodProjection.clear();
@@ -135,6 +133,7 @@ void DirectPoseEstimationSingleLayer(
             // compute the projection in the second image
             // TODO START YOUR CODE HERE
             float u =0, v = 0;
+
             Eigen::Vector2d px_ref_i = px_ref.at(i);
 
             Eigen::Vector3d P_ref, P_target;
@@ -145,10 +144,11 @@ void DirectPoseEstimationSingleLayer(
             P_target = T21 * P_ref;
             u = fx * P_target(0) / P_target(2) + cx;
             v = fy * P_target(1) / P_target(2) + cy;
-            int border = 40;
 
-            if (u <= half_patch_size || u >= img2.cols - half_patch_size ||
-                    v <= half_patch_size || v >= img2.rows - half_patch_size) {
+            if (px_ref_i(0) < half_patch_size || px_ref_i(0) > img2.cols - half_patch_size ||
+                px_ref_i(1) < half_patch_size || px_ref_i(1) > img2.rows - half_patch_size ||
+                u < half_patch_size || u > img2.cols - half_patch_size ||
+                v < half_patch_size || v > img2.rows - half_patch_size) {
 
                 continue;
             }
@@ -162,58 +162,24 @@ void DirectPoseEstimationSingleLayer(
 
                     double error =0;
 
-                    // 需要计算ref点淋雨patch内的点对应的空间点，以及它对应的在第二张图的像
-                    Eigen::Vector2d px_ref_i_xy;
-                    px_ref_i_xy(0) = px_ref_i(0) + x;
-                    px_ref_i_xy(1) = px_ref_i(1) + y;
-                    int disparity_xy = disparity_img.at<uchar>(px_ref_i_xy(1), px_ref_i_xy(0));
-                    double depth_xy = fx * baseline / disparity_xy;
-                    Eigen::Vector3d P_ref_i_xy, P_target_i_xy;
-
-                    P_ref_i_xy(0) = depth_xy * (px_ref_i_xy(0) - cx) / fx;
-                    P_ref_i_xy(1) = depth_xy * (px_ref_i_xy(1) - cy) / fy;
-                    P_ref_i_xy(2) = depth_xy;
-
-                    P_target_i_xy = T21 * P_ref_i_xy;
-
-                    float u_target = 0, v_target = 0;
-                    u_target = fx * P_target_i_xy(0) / P_target_i_xy(2) + cx;
-                    v_target = fy * P_target_i_xy(1) / P_target_i_xy(2) + cy;
-
-                    if (u_target < 1 || u_target > img2.cols - 2
-                            || v_target < 1 || v_target > img2.rows - 2) {
-                        continue;
-                    }
-
-                    error = GetPixelValue(img1, px_ref_i_xy(0), px_ref_i_xy(1)) - GetPixelValue(img2, u_target, v_target);
-
                     Matrix26d J_pixel_xi;   // pixel to \xi in Lie algebra
                     Eigen::Vector2d J_img_pixel;    // image gradients
 
-                    J_img_pixel(0) = (GetPixelValue(img2, u_target + 1, v_target) - GetPixelValue(img2, u_target - 1, v_target)) / 2;
-                    J_img_pixel(1) = (GetPixelValue(img2, u_target, v_target + 1) - GetPixelValue(img2, u_target, v_target - 1)) / 2;
+                    error = GetPixelValue(img1, px_ref_i(0) + x, px_ref_i(1) + y) - GetPixelValue(img2, u + x, v + y);
 
-                    Eigen::Matrix<double, 2, 3> J_pixel_3d;
-                    J_pixel_3d(0, 0) = fx / P_target_i_xy(2);
-                    J_pixel_3d(0, 1) = 0;
-                    J_pixel_3d(0, 2) = -fx * P_target_i_xy(0) / (P_target_i_xy(2) * P_target_i_xy(2));
-                    J_pixel_3d(1, 0) = 0;
-                    J_pixel_3d(1, 1) = fy / P_target_i_xy(2);
-                    J_pixel_3d(1, 2) = -fy * P_target_i_xy(1) / (P_target_i_xy(2) * P_target_i_xy(2));
+                    J_img_pixel(0) = (GetPixelValue(img2, u + x + 1, v + y) - GetPixelValue(img2, u + x - 1, v + y)) / 2;
+                    J_img_pixel(1) = (GetPixelValue(img2, u + x, v + y + 1) - GetPixelValue(img2, u + x, v + y - 1)) / 2;
 
-                    Eigen::Matrix<double, 3, 6> J_3d_xi;
-                    J_3d_xi << 1, 0, 0, 0, P_target_i_xy(2), -P_target_i_xy(1),
-                               0, 1, 0, -P_target_i_xy(2), 0, P_target_i_xy(0),
-                               0, 0, 1, P_target_i_xy(1), -P_target_i_xy(0), 0;
+                    double X = P_target(0);
+                    double Y = P_target(1);
+                    double Z = P_target(2);
 
-//                    J_pixel_xi = J_pixel_3d * J_3d_xi;
-                    double X = P_target_i_xy(0);
-                    double Y = P_target_i_xy(1);
-                    double Z = P_target_i_xy(2);
                     J_pixel_xi << fx / Z, 0, -fx * X / (Z*Z), -fx * X * Y / (Z*Z), fx + fx * (X * X)/(Z*Z), -fx * Y/Z,
-                                0, fy/Z, -fy*Y/(Z*Z), -fy-fy*(Y*Y)/(Z*Z), fy*X*Y/(Z*Z), fy*X/Z;
+                            0, fy/Z, -fy*Y/(Z*Z), -fy-fy*(Y*Y)/(Z*Z), fy*X*Y/(Z*Z), fy*X/Z;
+
                     // total jacobian
                     Vector6d J= Eigen::Matrix<double, 6, 1>::Zero();
+
                     J = -J_pixel_xi.transpose() * J_img_pixel;
 
                     H += J * J.transpose();
@@ -307,7 +273,6 @@ void DirectPoseEstimationMultiLayer(
         fy = fyG * scales[level];
         cx = cxG * scales[level];
         cy = cyG * scales[level];
-
         // END YOUR CODE HERE
         DirectPoseEstimationSingleLayer(pyr1[level], pyr2[level], px_ref_pyr, depth_ref, T21);
     }
