@@ -147,8 +147,8 @@ void DirectPoseEstimationSingleLayer(
 
             if (px_ref_i(0) < half_patch_size || px_ref_i(0) > img2.cols - half_patch_size ||
                 px_ref_i(1) < half_patch_size || px_ref_i(1) > img2.rows - half_patch_size ||
-                u < half_patch_size || u > img2.cols - half_patch_size ||
-                v < half_patch_size || v > img2.rows - half_patch_size) {
+                u < half_patch_size + 1 || u > img2.cols - half_patch_size - 1 ||
+                v < half_patch_size + 1 || v > img2.rows - half_patch_size - 1) {
 
                 continue;
             }
